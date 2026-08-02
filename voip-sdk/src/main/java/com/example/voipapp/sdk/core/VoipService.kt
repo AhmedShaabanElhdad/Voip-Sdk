@@ -9,7 +9,7 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.example.voipapp.sdk.Voip
+import com.example.voipapp.sdk.VoipSDK
 import com.example.voipapp.sdk.media.AudioCodec
 import com.example.voipapp.sdk.media.AudioEngine
 import com.example.voipapp.sdk.media.AudioOutput
@@ -72,14 +72,14 @@ class VoipService : Service() {
         }
         
         audioEngine.onAudioLevelUpdated = { level ->
-            Voip.updateLocalAudioLevel(level)
+            VoipSDK.updateLocalAudioLevel(level)
         }
 
         // Remote audio (Network)
         udpTransport.onPacketReceived = { encodedData ->
             val pcmData = AudioCodec.decode(encodedData)
             val level = calculateLevel(pcmData)
-            Voip.updateRemoteAudioLevel(level)
+            VoipSDK.updateRemoteAudioLevel(level)
             audioEngine.playAudio(pcmData)
         }
     }
@@ -136,7 +136,7 @@ class VoipService : Service() {
         udpTransport.startListening(5004)
         signalingClient.sendSignal("offer", destination)
         audioEngine.start()
-        Voip.updateCallState(Voip.CallState.ACTIVE, destination)
+        VoipSDK.updateCallState(VoipSDK.CallState.ACTIVE, destination)
     }
 
     fun answerCallLocally() {
@@ -145,12 +145,12 @@ class VoipService : Service() {
         udpTransport.startListening(5004)
         audioEngine.start()
         signalingClient.sendSignal("answer", null)
-        Voip.updateCallState(Voip.CallState.ACTIVE, "Remote User")
+        VoipSDK.updateCallState(VoipSDK.CallState.ACTIVE, "Remote User")
     }
 
     fun rejectCallLocally() {
         signalingClient.sendSignal("reject", null)
-        Voip.updateCallState(Voip.CallState.IDLE)
+        VoipSDK.updateCallState(VoipSDK.CallState.IDLE)
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
     }
@@ -160,7 +160,7 @@ class VoipService : Service() {
         udpTransport.stop()
         signalingClient.disconnect()
         audioManager.reset()
-        Voip.updateCallState(Voip.CallState.IDLE)
+        VoipSDK.updateCallState(VoipSDK.CallState.IDLE)
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
     }
