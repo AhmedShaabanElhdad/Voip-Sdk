@@ -1,0 +1,31 @@
+{
+  "project_info": {
+    "project_number": "REPLACE_WITH_YOUR_PROJECT_NUMBER",
+    "project_id": "voipapp-placeholder",
+    "storage_bucket": "voipapp-placeholder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:REPLACE_WITH_YOUR_APP_ID",
+        "android_client_info": {
+          "package_name": "com.example.voipapp"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "REPLACE_WITH_YOUR_API_KEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
